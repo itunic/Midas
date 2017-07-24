@@ -1,0 +1,2 @@
+http\://www.itunic.com/schema/itunic=com.itunic.midas.spring.MyNamespaceHandler
+http\://www.itunic.com/schema/midas=com.itunic.midas.spring.MidasNamespaceHandler

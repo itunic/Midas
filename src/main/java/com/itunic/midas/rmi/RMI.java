@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.UUID;
 
-import com.itunic.midas.io.netty.consumer.RPCServiceLoader;
-import com.itunic.midas.model.request.RPCRequestMessageModel;
+import com.itunic.midas.io.core.RPCServiceLoader;
+import com.itunic.midas.io.model.request.RPCRequestMessageModel;
 
 public abstract class RMI {
 	@SuppressWarnings("unchecked")
@@ -17,6 +17,7 @@ public abstract class RMI {
 					@Override
 					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 						RPCRequestMessageModel request = new RPCRequestMessageModel();
+						request.setRequestTime(System.currentTimeMillis());
 						request.setMessageId(UUID.randomUUID().toString());
 						request.setArgs(args);
 						request.setTypeParameters(method.getParameterTypes());
