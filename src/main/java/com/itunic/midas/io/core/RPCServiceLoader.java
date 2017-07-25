@@ -13,9 +13,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 
 public class RPCServiceLoader {
-	/**
-	 * 1，注册中心寻找报活服务 2，负载均衡算法 3，调用
-	 */
 	// private volatile static RPCServiceLoader loader = null;
 	private volatile MessageSendHandler handle = null;
 	private Lock lock = new ReentrantLock();
@@ -40,22 +37,13 @@ public class RPCServiceLoader {
 		}
 	}
 
-	/**
-	 * 
-	 * 注册中心获取连接
-	 * 
-	 * @author yinbin
-	 * @Date 2017年7月21日 下午5:22:35
-	 * @version 1.0.0
-	 * @return
-	 */
 	public String[] getServiceActiveConnection() {
 		return null;
 	}
 
 	public SocketAddress getTestServiceActiveConnection() {
 
-		return new InetSocketAddress("localhost", 8080);
+		return new InetSocketAddress("localhost", 21880);
 
 	}
 

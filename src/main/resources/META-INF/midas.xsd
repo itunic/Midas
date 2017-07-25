@@ -3,7 +3,7 @@
 	xmlns:tns="http://www.itunic.com/schema/midas" elementFormDefault="qualified">
 	<element name="protocol">
 		<complexType>
-			<attribute name="id" type="string" />
+			<attribute name="id" type="string" default="midasId"/>
 			<attribute name="name" type="string" default="midas" />
 			<attribute name="port" type="integer" default="20880" />
 			<attribute name="threads" type="integer" default="-1"/>

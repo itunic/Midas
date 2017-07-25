@@ -1,13 +1,17 @@
 package com.itunic.midas.spring;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
-import com.itunic.midas.io.core.ResponseDispatcher;
+import com.itunic.midas.io.core.commons.HandlerTools;
 import com.itunic.midas.spring.beans.ProtocolXMLBean;
 
 public class MidasBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+	private static Logger logger = LoggerFactory.getLogger(MidasBeanDefinitionParser.class);
 
 	@Override
 	protected Class<?> getBeanClass(Element element) {
@@ -26,11 +30,25 @@ public class MidasBeanDefinitionParser extends AbstractSingleBeanDefinitionParse
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
 		String name = element.getAttribute("name");
-		Integer port = Integer.parseInt(element.getAttribute("port"));
-		Integer threads = Integer.parseInt(element.getAttribute("threads"));
+		String port = element.getAttribute("port");
+		String threads = element.getAttribute("threads");
 		String serialization = element.getAttribute("serialization");
-		ResponseDispatcher rd = new ResponseDispatcher(port);
-		rd.run();
+		builder.addPropertyValue("name", name);
+		builder.addPropertyValue("port", Integer.parseInt(port));
+		builder.addPropertyValue("threads", Integer.parseInt(threads));
+		serialization = this.getSerialization(serialization);
+		if (!StringUtils.hasText(serialization))
+			builder.addPropertyValue("serialization", serialization);
 	}
 
+	private String getSerialization(String serialization) {
+		switch (serialization) {
+		case "JDK":
+			return HandlerTools.JDK_RECV;
+
+		default:
+			logger.error("未识别的序列化方式！", new Exception());
+			return null;
+		}
+	}
 }

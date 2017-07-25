@@ -38,4 +38,10 @@ public class ProtocolXMLBean {
 		this.serialization = serialization;
 	}
 
+	@Override
+	public String toString() {
+		return "ProtocolXMLBean [name=" + name + ", port=" + port + ", threads=" + threads + ", serialization="
+				+ serialization + "]";
+	}
+
 }
