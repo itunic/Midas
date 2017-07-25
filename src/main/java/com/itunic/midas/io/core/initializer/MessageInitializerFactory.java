@@ -6,7 +6,7 @@ import io.netty.channel.ChannelInitializer;
 
 public abstract class MessageInitializerFactory {
 	/**
-	 * ChannelInitializer ¹¤³§·½·¨
+	 * ChannelInitializer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @param handlerType
 	 * @return
@@ -21,7 +21,7 @@ public abstract class MessageInitializerFactory {
 			initializer = new JDKMessageSendInitializer();
 			break;
 		default:
-			System.out.println("Î´ÕÒµ½ÀàĞÍ");
+			System.out.println("æœªæœ‰åŒ¹é…ç±»å‹");
 			break;
 		}
 		return initializer;
@@ -35,7 +35,7 @@ public abstract class MessageInitializerFactory {
 			initializer = new JDKMessageSendInitializer();
 			break;
 		default:
-			System.out.println("Î´ÕÒµ½ÀàĞÍ");
+			System.out.println("Î´ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½");
 			break;
 		}
 		return initializer;
