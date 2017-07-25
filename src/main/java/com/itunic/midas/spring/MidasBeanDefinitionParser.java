@@ -37,7 +37,7 @@ public class MidasBeanDefinitionParser extends AbstractSingleBeanDefinitionParse
 		builder.addPropertyValue("port", Integer.parseInt(port));
 		builder.addPropertyValue("threads", Integer.parseInt(threads));
 		serialization = this.getSerialization(serialization);
-		if (!StringUtils.hasText(serialization))
+		if (StringUtils.hasText(serialization))
 			builder.addPropertyValue("serialization", serialization);
 	}
 
