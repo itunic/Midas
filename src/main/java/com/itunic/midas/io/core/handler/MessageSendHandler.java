@@ -23,6 +23,7 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
 		RPCResponseMessageModel response = (RPCResponseMessageModel) msg;
 		String messageId = response.getMessageId();
 		RPCMessageCallBack callBack = mapCallBack.get(messageId);
+
 		if (null != callBack) {
 			mapCallBack.remove(messageId);
 			callBack.finish(response);

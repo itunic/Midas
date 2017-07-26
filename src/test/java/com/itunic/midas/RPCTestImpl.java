@@ -9,7 +9,7 @@ public class RPCTestImpl implements RPCTest {
 	@Override
 	public String hello111(String abc) {
 		System.out.println("Netty RPC SUCCESS");
-		return "HAHAHAH-~!"+abc;
+		return "port:20880 HAHAHAH-~!"+abc;
 	}
 
 }
