@@ -42,7 +42,7 @@ public class RPCTestMain {
 			if (ins.get() == len) {
 				long end = System.currentTimeMillis();
 				long result = end - start;
-				System.out.printf("最终消耗时间:%s \n", result / 1000);
+				System.out.printf("并发%s数 请求数 %s，最终消耗时间:%s \n", 4,len,result / 1000);
 				break;
 			}
 		}
