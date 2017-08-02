@@ -17,7 +17,7 @@ public class RPCTestMain {
 		ThreadPoolExecutor ex = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		long start = System.currentTimeMillis();
-		int len = 8000;
+		int len = 300000;
 		for (int i = 0; i < len; i++) {
 			ex.execute(new Runnable() {
 

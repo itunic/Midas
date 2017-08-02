@@ -1,5 +1,6 @@
 package com.itunic.midas.io.core;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -22,28 +23,22 @@ public class TransportCallBack {
 	private long timeMillis;
 
 	public ChannelFuture getCallBackFuture() {
-		lock.lock();
-		try {
-			if (callBackFuture == null) {
-				over.await();
+		if (!isDone()) {
+			lock.lock();
+			try {
+				while (!isDone()) {
+					over.await(0, TimeUnit.MILLISECONDS);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} finally {
+				lock.unlock();
 			}
-			return callBackFuture;
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			return null;
-		} finally {
-			lock.unlock();
 		}
+		return callBackFuture;
 	}
 
 	public void setCallBackFuture(ChannelFuture callBackFuture) {
-		lock.lock();
-		try {
-			this.callBackFuture = callBackFuture;
-			over.signal();
-		} finally {
-			lock.unlock();
-		}
 		this.callBackFuture = callBackFuture;
 	}
 
@@ -53,6 +48,10 @@ public class TransportCallBack {
 
 	public void setTimeMillis(long timeMillis) {
 		this.timeMillis = timeMillis;
+	}
+
+	public boolean isDone() {
+		return callBackFuture != null;
 	}
 
 }

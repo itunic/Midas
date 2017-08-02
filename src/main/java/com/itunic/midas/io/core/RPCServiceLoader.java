@@ -5,8 +5,9 @@ import java.net.SocketAddress;
 
 import com.itunic.midas.io.core.handler.MessageSendHandler;
 import com.itunic.midas.io.model.request.RPCRequestMessageModel;
+import com.itunic.midas.rmi.Invoker;
 
-public class RPCServiceLoader {
+public class RPCServiceLoader implements Invoker {
 	private volatile static RPCServiceLoader loader = null;
 
 	private RPCServiceLoader() {
@@ -23,6 +24,7 @@ public class RPCServiceLoader {
 		return loader;
 	}
 
+	@Override
 	public Object start(RPCRequestMessageModel request) throws InterruptedException {
 		MessageSendHandler handle = loader.loadService(loader.getTestServiceActiveConnection());
 
