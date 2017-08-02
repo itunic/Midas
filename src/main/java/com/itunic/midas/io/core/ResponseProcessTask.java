@@ -14,10 +14,10 @@ public class ResponseProcessTask implements Runnable {
 	private RPCRequestMessageModel request = null;
 	private RPCResponseMessageModel response = null;
 	private ChannelHandlerContext ctx = null;
-	private Map<String, Class<?>> serviceMap = null;
+	private Map<String, Object> serviceMap = null;
 
 	public ResponseProcessTask(RPCRequestMessageModel request, RPCResponseMessageModel response,
-			ChannelHandlerContext ctx, Map<String, Class<?>> serviceMap) {
+			ChannelHandlerContext ctx, Map<String, Object> serviceMap) {
 		this.request = request;
 		this.response = response;
 		this.ctx = ctx;
@@ -27,7 +27,7 @@ public class ResponseProcessTask implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+
 		try {
 			this.response.setMessageId(this.request.getMessageId());
 			Object obj = this.reflex();
@@ -46,10 +46,10 @@ public class ResponseProcessTask implements Runnable {
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		String className = request.getClassName();
 		String methodName = request.getMethodName();
-		Class<?> serviceInterface = serviceMap.get(className);
+		Object serviceInterface = serviceMap.get(className);
 		Object[] args = request.getArgs();
 		// method.invoke(serviceInterface.newInstance(), args);
-		return MethodUtils.invokeMethod(serviceInterface.newInstance(), methodName, args);
+		return MethodUtils.invokeMethod(serviceInterface, methodName, args);
 
 	}
 

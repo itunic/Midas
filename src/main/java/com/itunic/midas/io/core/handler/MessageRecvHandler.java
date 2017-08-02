@@ -13,15 +13,16 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class MessageRecvHandler extends ChannelInboundHandlerAdapter {
-	private Map<String, Class<?>> serviceMap = null;
+	private Map<String, Object> serviceMap = null;
 
-	public MessageRecvHandler(ConcurrentHashMap<String, Class<?>> serviceMap) {
+	public MessageRecvHandler(ConcurrentHashMap<String, Object> serviceMap) {
 		this.serviceMap = serviceMap;
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("RPCServer:"+Thread.currentThread().getName()+" id:"+this);
 		RPCRequestMessageModel request = (RPCRequestMessageModel) msg;
 		RPCResponseMessageModel response = new RPCResponseMessageModel();
 		ThreadPoolExecutor thread = ThreadPoolExecutorFactory.getThreadPoolExecutor();

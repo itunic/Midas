@@ -15,7 +15,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class ResponseDispatcher implements Runnable {
-	private ConcurrentHashMap<String, Class<?>> serviceMap = new ConcurrentHashMap<String, Class<?>>();
+	private ConcurrentHashMap<String, Object> serviceMap = new ConcurrentHashMap<String, Object>();
 	private int port = 8080;
 	private int threads = 4;
 	private String serialization = HandlerTools.JDK_RECV;
@@ -30,7 +30,7 @@ public class ResponseDispatcher implements Runnable {
 		serviceMap.put(serviceInterface.getName(), impl);
 	}
 
-	public void register(ConcurrentHashMap<String, Class<?>> serviceMap) {
+	public void register(ConcurrentHashMap<String, Object> serviceMap) {
 		this.serviceMap = serviceMap;
 	}
 

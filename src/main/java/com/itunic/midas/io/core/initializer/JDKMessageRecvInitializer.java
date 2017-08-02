@@ -14,9 +14,9 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
 public class JDKMessageRecvInitializer extends ChannelInitializer<SocketChannel> {
-	private ConcurrentHashMap<String, Class<?>> serviceMap = null;
+	private ConcurrentHashMap<String, Object> serviceMap = null;
 
-	public JDKMessageRecvInitializer(ConcurrentHashMap<String, Class<?>> serviceMap) {
+	public JDKMessageRecvInitializer(ConcurrentHashMap<String, Object> serviceMap) {
 		this.serviceMap = serviceMap;
 	}
 

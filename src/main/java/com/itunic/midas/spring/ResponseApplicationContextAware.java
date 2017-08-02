@@ -17,7 +17,7 @@ import com.itunic.midas.spring.beans.ProtocolXMLBean;
 
 @Service
 public class ResponseApplicationContextAware implements ApplicationContextAware, InitializingBean {
-	private static final ConcurrentHashMap<String, Class<?>> serviceMap = new ConcurrentHashMap<String, Class<?>>();
+	private static final ConcurrentHashMap<String, Object> serviceMap = new ConcurrentHashMap<String, Object>();
 	private static ProtocolXMLBean bean = null;
 
 	@Override
@@ -27,7 +27,8 @@ public class ResponseApplicationContextAware implements ApplicationContextAware,
 		if (MapUtils.isNotEmpty(serviceBeanMap)) {
 			for (Object serviceBean : serviceBeanMap.values()) {
 				String interfaceName = serviceBean.getClass().getAnnotation(RPCService.class).value().getName();
-				serviceMap.put(interfaceName, serviceBean.getClass());
+				//serviceMap.put(interfaceName, serviceBean.getClass());
+				serviceMap.put(interfaceName, serviceBean);
 			}
 		}
 	}

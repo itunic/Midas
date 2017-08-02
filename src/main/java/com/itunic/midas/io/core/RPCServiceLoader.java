@@ -36,7 +36,7 @@ public class RPCServiceLoader {
 
 	public SocketAddress getTestServiceActiveConnection() {
 		long a = System.currentTimeMillis();
-		if (a % 2 == 0) {
+		if (a % 2 == -1) {
 			return new InetSocketAddress("localhost", 21880);
 		} else {
 			return new InetSocketAddress("localhost", 20880);

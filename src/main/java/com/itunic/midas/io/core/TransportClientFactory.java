@@ -27,12 +27,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
  * @version 1.0.0
  */
 public class TransportClientFactory {
-	private static Logger logger = LoggerFactory.getLogger(TransportClientFactory.class);
-	private static EventLoopGroup worker = new NioEventLoopGroup();
+	private final static Logger logger = LoggerFactory.getLogger(TransportClientFactory.class);
+	private final static EventLoopGroup worker = new NioEventLoopGroup(4);
 	/**
 	 * 客户端连接池
 	 */
-	private static ConcurrentHashMap<SocketAddress, TransportClientVo> clients = new ConcurrentHashMap<SocketAddress, TransportClientVo>();
+	private final static ConcurrentHashMap<SocketAddress, TransportClientVo> clients = new ConcurrentHashMap<SocketAddress, TransportClientVo>();
 	private static volatile boolean flag = false;
 	static {
 		ScheduledExecutorService ses = new ScheduledThreadPoolExecutor(1);

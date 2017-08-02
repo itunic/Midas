@@ -7,23 +7,25 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 
- *  RPCÏûÏ¢·¢Æğ²¢»Øµ÷ÊµÏÖÀà
+ * RPCæ¶ˆæ¯å‘èµ·å¹¶å›è°ƒå®ç°ç±»
+ * 
  * @ClassName RPCMessageCallBack
  * @author yinbin
- * @Date 2017Äê7ÔÂ21ÈÕ ÏÂÎç2:56:41
+ * @Date 2017å¹´7æœˆ21æ—¥ ä¸‹åˆ2:56:41
  * @version 1.0.0
  */
 public class RPCMessageCallBack extends AbstractMessageCallBack<RPCResponseMessageModel> {
 	private RPCResponseMessageModel response = null;
-	private Lock lock = new ReentrantLock();
-	private Condition over = lock.newCondition();
+	private final Lock lock = new ReentrantLock();
+	private final Condition over = lock.newCondition();
 
 	@Override
 	public Object start() {
+		//System.out.println(this+" RpcMessageCall start "+Thread.currentThread().getName());
+		lock.lock();
 		try {
-			lock.lock();
 			/**
-			 * ÅĞ¶ÏÊÇ·ñÓĞ·µ»ØÖµ£¬ÔÚÏß³Ì³¬¹ıĞİÃßÊ±¼äÔò·µ»Ønull£¬Èç¹û±»»½ĞÑ£¬Ôò´ú±íÓĞ·µ»ØÖµ¡£
+			 * åˆ¤æ–­æ˜¯å¦æœ‰è¿”å›å€¼ï¼Œåœ¨çº¿ç¨‹è¶…è¿‡ä¼‘çœ æ—¶é—´åˆ™è¿”å›nullï¼Œå¦‚æœè¢«å”¤é†’ï¼Œåˆ™ä»£è¡¨æœ‰è¿”å›å€¼ã€‚
 			 */
 			if (null == response)
 				over.await(10 * 1000, TimeUnit.MILLISECONDS);
@@ -38,10 +40,11 @@ public class RPCMessageCallBack extends AbstractMessageCallBack<RPCResponseMessa
 
 	@Override
 	public void finish(RPCResponseMessageModel response) {
+		lock.lock();
 		try {
-			lock.lock();
+			//System.out.println(this+" RPCMessageCall "+Thread.currentThread().getName());
 			this.response = response;
-			over.signal();// »½ĞÑĞİÃßÏß³Ì
+			over.signal();// å”¤é†’ä¼‘çœ çº¿ç¨‹
 		} finally {
 			lock.unlock();
 		}

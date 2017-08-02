@@ -16,14 +16,14 @@ import io.netty.channel.ChannelFuture;
  * @version 1.0.0
  */
 public class TransportCallBack {
-	private Lock lock = new ReentrantLock();
-	private Condition over = lock.newCondition();
+	private final Lock lock = new ReentrantLock();
+	private final Condition over = lock.newCondition();
 	private volatile ChannelFuture callBackFuture = null;
 	private long timeMillis;
 
 	public ChannelFuture getCallBackFuture() {
+		lock.lock();
 		try {
-			lock.lock();
 			if (callBackFuture == null) {
 				over.await();
 			}
@@ -37,8 +37,8 @@ public class TransportCallBack {
 	}
 
 	public void setCallBackFuture(ChannelFuture callBackFuture) {
+		lock.lock();
 		try {
-			lock.lock();
 			this.callBackFuture = callBackFuture;
 			over.signal();
 		} finally {

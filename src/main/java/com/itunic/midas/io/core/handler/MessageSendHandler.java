@@ -21,11 +21,13 @@ public class MessageSendHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		RPCResponseMessageModel response = (RPCResponseMessageModel) msg;
+
 		String messageId = response.getMessageId();
-		RPCMessageCallBack callBack = mapCallBack.get(messageId);
+		RPCMessageCallBack callBack = mapCallBack.remove(messageId);
 
 		if (null != callBack) {
-			mapCallBack.remove(messageId);
+			System.out.println(
+					" 线程调用 id " + Thread.currentThread().getName()+" handle:" + this + " callBack:" + callBack);
 			callBack.finish(response);
 		}
 	}

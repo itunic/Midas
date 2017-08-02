@@ -11,7 +11,7 @@ public abstract class MessageInitializerFactory {
 	 * @param handlerType
 	 * @return
 	 */
-	public static ChannelInitializer<?> getRevcChildHandler(String handlerType,ConcurrentHashMap<String, Class<?>> serviceMap) {
+	public static ChannelInitializer<?> getRevcChildHandler(String handlerType,ConcurrentHashMap<String, Object> serviceMap) {
 		ChannelInitializer<?> initializer = null;
 		switch (handlerType) {
 		case "JDK-RECV":
