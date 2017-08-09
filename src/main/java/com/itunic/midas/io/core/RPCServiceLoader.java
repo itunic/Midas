@@ -9,9 +9,8 @@ import com.itunic.midas.rmi.Invoker;
 
 public class RPCServiceLoader implements Invoker {
 	private volatile static RPCServiceLoader loader = null;
+	private static final String NICKNAME = "netty";
 
-	private RPCServiceLoader() {
-	};
 
 	public static RPCServiceLoader getInstance() {
 		if (loader == null) {
@@ -26,8 +25,7 @@ public class RPCServiceLoader implements Invoker {
 
 	@Override
 	public Object start(RPCRequestMessageModel request) throws InterruptedException {
-		MessageSendHandler handle = loader.loadService(loader.getTestServiceActiveConnection());
-
+		MessageSendHandler handle = this.loadService(this.getTestServiceActiveConnection());
 		return handle.sendMessageRequest(request).start();
 
 	}
@@ -48,6 +46,11 @@ public class RPCServiceLoader implements Invoker {
 
 	private MessageSendHandler loadService(SocketAddress socketAddress) {
 		return TransportClientFactory.getTransportClient(socketAddress);
+	}
+
+	@Override
+	public String getNickname() {
+		return NICKNAME;
 	}
 
 }

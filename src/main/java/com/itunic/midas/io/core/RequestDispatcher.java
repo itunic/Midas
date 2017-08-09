@@ -37,7 +37,6 @@ public class RequestDispatcher {
 	}
 
 	public void connect(final SocketAddress serviceAddress, final TransportCallBack call) {
-		System.out.println(serviceAddress+"--"+b);
 		
 		ChannelFuture cf = b.connect(serviceAddress);
 		cf.addListener(new ChannelFutureListener() {

@@ -17,7 +17,7 @@ public class RPCTestMain {
 		ThreadPoolExecutor ex = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
 				new LinkedBlockingQueue<Runnable>());
 		long start = System.currentTimeMillis();
-		int len = 300000;
+		int len = 10000;
 		for (int i = 0; i < len; i++) {
 			ex.execute(new Runnable() {
 
@@ -27,7 +27,7 @@ public class RPCTestMain {
 					RPCTest t = RMI.rpc(RPCTest.class);
 					ins.addAndGet(1);
 					int is =ins.get();
-					t.hello111(String.valueOf(is));
+					t.hello111("22");
 					//System.out.println(t.hello111(String.valueOf(is)) + "---" + is);
 				}
 			});

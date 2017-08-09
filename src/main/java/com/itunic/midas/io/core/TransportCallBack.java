@@ -23,6 +23,7 @@ public class TransportCallBack {
 	private long timeMillis;
 
 	public ChannelFuture getCallBackFuture() {
+		System.out.println("si:"+isDone());
 		if (!isDone()) {
 			lock.lock();
 			try {

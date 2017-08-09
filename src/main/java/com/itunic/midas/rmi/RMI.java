@@ -23,7 +23,9 @@ public abstract class RMI {
 						request.setTypeParameters(method.getParameterTypes());
 						request.setClassName(method.getDeclaringClass().getName());
 						request.setMethodName(method.getName());
-						return RPCServiceLoader.getInstance().start(request);
+						// return RPCServiceLoader.getInstance().start(request);
+						System.out.println("rm1");
+						return new InvokerFactory().builder().start(request);
 					}
 				});
 	}

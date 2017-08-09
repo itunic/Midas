@@ -32,7 +32,7 @@ public class TransportClientFactory {
 	/**
 	 * 客户端连接池
 	 */
-	private final static ConcurrentHashMap<SocketAddress, TransportClientVo> clients = new ConcurrentHashMap<SocketAddress, TransportClientVo>();
+	private final static ConcurrentHashMap<SocketAddress, TransportCallBack> clients = new ConcurrentHashMap<SocketAddress, TransportCallBack>();
 	private static volatile boolean flag = false;
 	static {
 		ScheduledExecutorService ses = new ScheduledThreadPoolExecutor(1);
@@ -50,22 +50,20 @@ public class TransportClientFactory {
 	 * @return MessageSendHandler
 	 */
 	public static MessageSendHandler getTransportClient(SocketAddress address) {
-		TransportClientVo call = clients.get(address);
+		TransportCallBack call = clients.get(address);
 		// 获取一个future，如果为空或不可用状态。则需要重新建立连接！
-		if (call == null || !call.getFuture().isSuccess()) {
+		if (call == null || !call.getCallBackFuture().isSuccess()) {
 			flag = false;
 			synchronized (TransportClientFactory.class) {
 				if (!flag) {
 					TransportCallBack ca = new TransportCallBack();
-					TransportClientVo vo = new TransportClientVo();
 					RequestDispatcher dis = RequestDispatcher.getInstance(worker);
 					dis.connect(address, ca);
 					// 将返回对象拷贝至TransportClientVo，目的是在并发场景下，消除锁带来的性能影响
-					vo.setFuture(ca.getCallBackFuture());
 					/**
 					 * 将新的连接放入连接池
 					 */
-					clients.put(address, vo);
+					clients.put(address, ca);
 					flag = true;
 				}
 			}
@@ -84,8 +82,8 @@ public class TransportClientFactory {
 	 * @param future
 	 * @return
 	 */
-	private static MessageSendHandler getHandle(TransportClientVo vo) {
-		ChannelFuture future = vo.getFuture();
+	private static MessageSendHandler getHandle(TransportCallBack vo) {
+		ChannelFuture future = vo.getCallBackFuture();
 		MessageSendHandler handle = future.channel().pipeline().get(MessageSendHandler.class);
 		vo.setTimeMillis(System.currentTimeMillis());
 		// loader.setHandle(handle);
