@@ -5,7 +5,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.UUID;
 
-import com.itunic.midas.io.core.RPCServiceLoader;
+import com.itunic.midas.exceptions.RPCException;
+import com.itunic.midas.exceptions.RemoteException;
 import com.itunic.midas.io.model.request.RPCRequestMessageModel;
 
 public abstract class RMI {
@@ -15,7 +16,7 @@ public abstract class RMI {
 				new InvocationHandler() {
 
 					@Override
-					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+					public Object invoke(Object proxy, Method method, Object[] args) throws RPCException, InterruptedException, RemoteException {
 						RPCRequestMessageModel request = new RPCRequestMessageModel();
 						request.setRequestTime(System.currentTimeMillis());
 						request.setMessageId(UUID.randomUUID().toString());
@@ -23,8 +24,6 @@ public abstract class RMI {
 						request.setTypeParameters(method.getParameterTypes());
 						request.setClassName(method.getDeclaringClass().getName());
 						request.setMethodName(method.getName());
-						// return RPCServiceLoader.getInstance().start(request);
-						System.out.println("rm1");
 						return new InvokerFactory().builder().start(request);
 					}
 				});

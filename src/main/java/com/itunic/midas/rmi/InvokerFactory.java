@@ -1,26 +1,18 @@
 package com.itunic.midas.rmi;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.jar.Manifest;
 
-import org.apache.commons.io.IOUtils;
-
-import com.itunic.midas.io.core.RPCServiceLoader;
+import com.itunic.midas.exceptions.RemoteException;
 
 public final class InvokerFactory {
 	private final static ConcurrentHashMap<String, Invoker> invokers = new ConcurrentHashMap<>();
 	private String invokerType = null;
 	public static final String MAPPING_CONFIG_PREFIX = "META-INF/services";
+	private static final String DEFULT_RPC = "midas";
 
 	public InvokerFactory() {
-		this("netty");
+		this(DEFULT_RPC);
 	}
 
 	public <T> InvokerFactory(String invokerType) {
@@ -34,7 +26,7 @@ public final class InvokerFactory {
 
 	private boolean flag = false;
 
-	private void newInstances() throws Exception {
+	private void newInstances() throws RemoteException {
 		flag = true;
 		ServiceLoader<Invoker> loader = ServiceLoader.load(Invoker.class);
 		loader.forEach(f -> {
@@ -46,15 +38,14 @@ public final class InvokerFactory {
 	 * 构造一个不为空的invoker
 	 * 
 	 * @return Invoker
-	 * @throws Exception
+	 * @throws RemoteException 
 	 */
-	public Invoker builder() throws Exception {
+	public Invoker builder() throws  RemoteException {
 		Invoker invoke = getInvoker();
 		if (isNull(invoke) && invokers.size() == 0 && !flag) {
 			newInstances();
 			return builder();
 		}
-		System.out.println(invoke);
 		return invoke;
 	}
 
